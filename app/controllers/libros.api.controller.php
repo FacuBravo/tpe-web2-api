@@ -47,16 +47,16 @@ class LibrosApiController extends ApiController {
 
                 switch ($subrecurso) {
                     case 'titulo':
-                        return $this->view->response($libro->titulo, 200);
+                        return $this->view->response("Titulo: " . $libro->titulo, 200);
                         break;
                     case 'genero':
-                        return $this->view->response($libro->genero, 200);
+                        return $this->view->response("Genero: " . $libro->genero, 200);
                         break;
                     case 'descripcion':
-                        return $this->view->response($libro->descripcion, 200);
+                        return $this->view->response("Descripcion: " . $libro->descripcion, 200);
                         break;
                     case 'precio':
-                        return $this->view->response($libro->precio, 200);
+                        return $this->view->response("Precio: " . $libro->precio, 200);
                         break;
                     default:
                         return $this->view->response("El libro no tiene " . $subrecurso, 400);
