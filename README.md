@@ -1,6 +1,6 @@
-##ENDPOINTS GET:
+## ENDPOINTS GET:
 
-    **- 'api/libros':**
+    - 'api/libros':
 
         Devuelve todos los libros registrados.
 
@@ -26,7 +26,7 @@
         ]
 
 
-    **- 'api/libros/:ID':**
+    - 'api/libros/:ID':
 
         Devuelve un libro específico.
 
@@ -42,7 +42,7 @@
         }
 
 
-    **- 'api/libros/:ID/:subrecurso':**
+    - 'api/libros/:ID/:subrecurso':
 
         Devuelve un recurso específico de un libro específico.
 
@@ -51,9 +51,9 @@
         "Titulo: ..."
 
 
-##ENDPOINTS DELETE:
+## ENDPOINTS DELETE:
 
-    **- 'api/libros/:ID':**
+    - 'api/libros/:ID':
 
         Elimina un libro específico.
 
@@ -65,9 +65,9 @@
         /api/libros/999  =>  "El libro con el id 999 no existe"
 
 
-##ENDPOINTS POST:
+## ENDPOINTS POST:
 
-    **- 'api/libros':**
+    - 'api/libros':
 
         Agrega un libro.
 
@@ -86,9 +86,9 @@
         "Libro agregado con el id #"
 
 
-##ENDPOINTS PUT
+## ENDPOINTS PUT
 
-    **- 'api/libros/:ID':**
+    - 'api/libros/:ID':
 
         Modifica un libro específico.
 
