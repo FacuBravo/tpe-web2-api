@@ -2,6 +2,8 @@
 
 ## ENDPOINTS GET:
 
+### LIBROS
+
 + api/libros:
 
     **Devuelve todos los libros registrados**
@@ -53,8 +55,52 @@
         Ej:
           api/libros/1/titulo  =>  "Titulo: ..."
 
+### AUTORES
+
++ api/autores:
+
+    **Devuelve todos los autores registrados**
+
+        Ej:
+
+        [
+            {
+                "id": "1",
+                "nombre": "...",
+                "descripcion": "..."
+            },
+            {
+                "id": "2",
+                "nombre": "...,
+                "descripcion": "..."
+            }
+        ]
+
++ api/autores/:ID:
+
+  **Devuelve un autor específico.**
+
+        Ej:
+  
+        api/autores/4
+  
+        {
+            "id": "4",
+            "nombre": "Julio Cortazar",
+            "descripcion": "Escritor argentino"
+        }
+
+
++ api/autores/:ID/:subrecurso:
+
+  **Devuelve un recurso específico de un autor específico.**
+
+        Ej:
+          api/libros/1/nombre  =>  "Nombre: ..."
 
 ## ENDPOINTS DELETE:
+
+### LIBROS
 
 + api/libros/:ID:
 
@@ -65,10 +111,26 @@
         /api/libros/2  =>  "El libro con el id 2 fue eliminado"
 
         Si el libro no existe:
+
         /api/libros/999  =>  "El libro con el id 999 no existe"
 
+### AUTORES
+
++ api/autores/:ID:
+
+  **Elimina un autor específico.**
+
+        Si el autor existe:
+
+        /api/autores/2  =>  "El autor con el id 2 fue eliminado"
+
+        Si el autor no existe:
+
+        /api/autores/999  =>  "El autor con el id 999 no existe"
 
 ## ENDPOINTS POST:
+
+### LIBROS
 
 + api/libros:
 
@@ -88,8 +150,26 @@
 
         "Libro agregado con el id #"
 
+### AUTORES
+
++ api/autores:
+
+  **Agrega un autor.**
+
+        Body:
+
+        {
+            "nombre": "...",
+            "descripcion": "...",
+        }
+
+        Si se agregó:
+
+        "Autor agregado con el id #"
 
 ## ENDPOINTS PUT
+
+### LIBROS
 
 + api/libros/:ID:
 
@@ -112,3 +192,24 @@
         Si el libro no existe:
 
         /api/libros/999  =>  "El libro con el id 999 no existe"
+
+### AUTORES
+
++ api/autores/:ID:
+
+  **Modifica un autor específico.**
+
+        Body:
+
+        {
+            "nombre": "...",
+            "descripcion": "...",
+        }
+
+        Si el autor existe:
+
+        /api/autores/3  =>  "El autor con el id 3 se actualizó correctamente"
+
+        Si el autor no existe:
+
+        /api/autores/999  =>  "El autor con el id 999 no existe"
