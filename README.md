@@ -1,8 +1,10 @@
+# API Libreria
+
 ## ENDPOINTS GET:
 
-    - 'api/libros':
++ api/libros:
 
-        Devuelve todos los libros registrados.
+    **Devuelve todos los libros registrados**
 
         Ej:
 
@@ -26,12 +28,14 @@
         ]
 
 
-    - 'api/libros/:ID':
++ api/libros/:ID:
 
-        Devuelve un libro específico.
+  **Devuelve un libro específico.**
 
         Ej:
-
+  
+        api/libros/1
+  
         {
             "id": "1",
             "titulo": "...",
@@ -42,20 +46,19 @@
         }
 
 
-    - 'api/libros/:ID/:subrecurso':
++ api/libros/:ID/:subrecurso:
 
-        Devuelve un recurso específico de un libro específico.
+  **Devuelve un recurso específico de un libro específico.**
 
         Ej:
-
-        "Titulo: ..."
+          api/libros/1/titulo  =>  "Titulo: ..."
 
 
 ## ENDPOINTS DELETE:
 
-    - 'api/libros/:ID':
++ api/libros/:ID:
 
-        Elimina un libro específico.
+  **Elimina un libro específico.**
 
         Si el libro existe:
 
@@ -67,9 +70,9 @@
 
 ## ENDPOINTS POST:
 
-    - 'api/libros':
++ api/libros:
 
-        Agrega un libro.
+  **Agrega un libro.**
 
         Body:
 
@@ -88,9 +91,9 @@
 
 ## ENDPOINTS PUT
 
-    - 'api/libros/:ID':
++ api/libros/:ID:
 
-        Modifica un libro específico.
+  **Modifica un libro específico.**
 
         Body:
 
