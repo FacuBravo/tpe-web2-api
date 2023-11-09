@@ -15,7 +15,7 @@ class LibrosModel {
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getLibroPorId($id) {
+    public function getLibro($id) {
         $query = $this->bd->prepare("SELECT * FROM libros WHERE id = ?");
         $query->execute([$id]);
         return $query->fetch(PDO::FETCH_OBJ);

@@ -39,7 +39,7 @@ class LibrosApiController extends ApiController {
     }
 
     public function getLibro($params = []) {
-        $libro = $this->model->getLibroPorId($params[":ID"]);
+        $libro = $this->model->getLibro($params[":ID"]);
 
         if ($libro) {
             if (!empty($params[":subrecurso"])) {
@@ -58,6 +58,9 @@ class LibrosApiController extends ApiController {
                     case 'precio':
                         return $this->view->response("Precio: " . $libro->precio, 200);
                         break;
+                    case 'id':
+                        return $this->view->response("Id: " . $libro->id, 200);
+                        break;
                     default:
                         return $this->view->response("El libro no tiene " . $subrecurso, 400);
                         break;
@@ -72,7 +75,7 @@ class LibrosApiController extends ApiController {
 
     public function deleteLibro($params = []) {
         $id = $params[":ID"];
-        $libro = $this->model->getLibroPorId($id);
+        $libro = $this->model->getLibro($id);
 
         if ($libro) {
             $this->model->eliminarLibro($id);
@@ -106,7 +109,7 @@ class LibrosApiController extends ApiController {
 
     public function updateLibro($params = []) {
         $id = $params[":ID"];
-        $libro = $this->model->getLibroPorId($id);
+        $libro = $this->model->getLibro($id);
 
         if ($libro) {
             $body = $this->getData();
