@@ -11,7 +11,80 @@ class LibrosApiController extends ApiController {
         $this->model = new LibrosModel();
     }
 
-    public function getLibros() {
+    public function getLibros() {        
+        $orden = $this->_validarOrden();
+
+        if ($orden != null) {
+            $sort = $orden[0];
+            
+            if (!empty($orden[1])) {
+                $order = $orden[1];
+
+                $libros = $this->model->getLibros($sort, $order);
+                return $this->view->response($libros, 200);
+            }
+
+            $libros = $this->model->getLibros($sort);
+
+            return $this->view->response($libros, 200);
+        }
+
+        $libros = $this->model->getLibros();
+        $this->view->response($libros, 200);
+    }
+
+    public function getLibrosFiltrados() {
+        if (!empty($_GET["filterBy"])) {
+            if (!empty($_GET["value"])) {
+                $filter = $_GET["filterBy"];
+                $value = "%" . $_GET["value"] . "%";
+
+                if ($filter != "genero" && $filter != "titulo" && $filter != "id_autor" && $filter != "descripcion" && $filter != "precio") {
+                    return $this->view->response("Filtro no válido", 400);
+                }
+
+                $orden = $this->_validarOrden();
+
+                if ($orden != null) {
+                    $sort = $orden[0];
+                    
+                    if (!empty($orden[1])) {
+                        $order = $orden[1];
+        
+                        $libros = $this->model->getLibrosFiltrados($filter, $value, $sort, $order);
+
+                        if ($libros) {
+                            return $this->view->response($libros, 200);
+                        }
+
+                        return $this->view->response("No se encontraron resultados", 404);
+                    }
+        
+                    $libros = $this->model->getLibrosFiltrados($filter, $value, $sort);
+
+                    if ($libros) {
+                        return $this->view->response($libros, 200);
+                    }
+
+                    return $this->view->response("No se encontraron resultados", 404);
+                }
+
+                $libros = $this->model->getLibrosFiltrados($filter, $value);
+
+                if ($libros) {
+                    return $this->view->response($libros, 200);
+                }
+
+                return $this->view->response("No se encontraron resultados", 404);
+            }
+            
+            return $this->view->response("Falta el valor que desea buscar en el parámetro value", 400);
+        }
+
+        return $this->view->response("Faltan los parámetros filterBy y / o value", 400);
+    }
+
+    private function _validarOrden() {
         if (!empty($_GET["sort"])) {
             $sort = $_GET["sort"];
 
@@ -26,16 +99,13 @@ class LibrosApiController extends ApiController {
                     return $this->view->response("Los libros no se pueden ordenar de forma " . $order, 400);
                 }
 
-                $libros = $this->model->getLibros($sort, $order);
-                return $this->view->response($libros, 200);
+                return [$sort, $order];
             }
 
-            $libros = $this->model->getLibros($sort);
-            return $this->view->response($libros, 200);
-        } 
+            return [$sort];
+        }
 
-        $libros = $this->model->getLibros();
-        $this->view->response($libros, 200);
+        return null;
     }
 
     public function getLibro($params = []) {

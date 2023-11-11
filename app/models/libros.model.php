@@ -10,8 +10,14 @@ class LibrosModel {
     }
 
     public function getLibros($sort = "id", $order = "asc") {
-        $query = $this->bd->prepare("SELECT * FROM libros ORDER BY " . $sort . " " . $order);
+        $query = $this->bd->prepare("SELECT * FROM libros ORDER BY $sort $order");
         $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getLibrosFiltrados($filter, $value, $sort = "id", $order = "asc") {
+        $query = $this->bd->prepare("SELECT * FROM libros WHERE $filter LIKE ? ORDER BY $sort $order");
+        $query->execute([$value]);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 

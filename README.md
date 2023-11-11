@@ -29,6 +29,13 @@
             }
         ]
 
+        Los resultados se pueden ordenar según un apartado:
+
+        api/libros/?sort=titulo&order=desc
+
+        =>
+
+        (Devuelve los libros ordenados descendentemente por el título)
 
 + api/libros/:ID:
 
@@ -53,7 +60,24 @@
   **Devuelve un recurso específico de un libro específico.**
 
         Ej:
-          api/libros/1/titulo  =>  "Titulo: ..."
+            api/libros/1/titulo  =>  "Titulo: ..."
+
+
++ api/libros/filtro?filterBy=?&value=?
+
+    **Obtiene los resultados segun el filtro especificado**
+
+        Ej:
+            api/libros/filtro?filterBy=genero&value=drama
+
+            También se pueden ordenar los resultados según un apartado:
+
+            api/libros/filtro?filterBy=genero&value=drama&sort=titulo&order=desc
+
+            =>
+
+            (Devuelve los libros cuyo género contenga la palabra "drama" y los ordena descendentemente por el título)
+
 
 ### AUTORES
 
