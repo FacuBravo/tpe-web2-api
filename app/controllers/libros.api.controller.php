@@ -1,27 +1,29 @@
 <?php
 
 require_once "./app/models/libros.model.php";
+require_once "./app/models/autores.model.php";
 require_once "./app/controllers/api.controller.php";
 require_once "./app/helpers/auth.api.helper.php";
 
 class LibrosApiController extends ApiController {
-    private $model, $authHelper;
+    private $model, $authHelper, $modelAutores;
 
     public function __construct() {
         parent::__construct();
         $this->model = new LibrosModel();
         $this->authHelper = new AuthHelper();
+        $this->modelAutores = new AutoresModel();
     }
 
     public function getLibros() {
 
         $orden = $this->_validarOrden();
 
-        if ($orden != null) {
-            $sort = $orden[0];
+        if ($orden[0] == 200) {
+            $sort = $orden[1];
             
-            if (!empty($orden[1])) {
-                $order = $orden[1];
+            if (!empty($orden[2])) {
+                $order = $orden[2];
 
                 $libros = $this->model->getLibros($sort, $order);
                 return $this->view->response($libros, 200);
@@ -48,11 +50,15 @@ class LibrosApiController extends ApiController {
 
                 $orden = $this->_validarOrden();
 
-                if ($orden != null) {
-                    $sort = $orden[0];
+                if ($orden[0] == 400) {
+                    return;
+                }
+
+                if ($orden[0] == 200) {
+                    $sort = $orden[1];
                     
-                    if (!empty($orden[1])) {
-                        $order = $orden[1];
+                    if (!empty($orden[2])) {
+                        $order = $orden[2];
         
                         $libros = $this->model->getLibrosFiltrados($filter, $value, $sort, $order);
 
@@ -92,23 +98,25 @@ class LibrosApiController extends ApiController {
             $sort = $_GET["sort"];
 
             if ($sort != "titulo" && $sort != "genero" && $sort != "descripcion" && $sort != "precio" && $sort != "id" && $sort != "id_autor") {
-                return $this->view->response("Los libros no se puede ordenar por " . $sort . " porque no lo contienen", 400);
+                $this->view->response("Los libros no se puede ordenar por " . $sort . " porque no lo contienen", 400);
+                return [400];
             }
 
             if (!empty($_GET["order"])) {
                 $order = $_GET["order"];
 
                 if ($order != "desc" && $order != "asc") {
-                    return $this->view->response("Los libros no se pueden ordenar de forma " . $order, 400);
+                    $this->view->response("Los libros no se pueden ordenar de forma " . $order, 400);
+                    return [400];
                 }
 
-                return [$sort, $order];
+                return [200, $sort, $order];
             }
 
-            return [$sort];
+            return [200, $sort];
         }
 
-        return null;
+        return [404];
     }
 
     public function getLibro($params = []) {
@@ -186,15 +194,21 @@ class LibrosApiController extends ApiController {
             $genero = $body->genero;
             $descripcion = $body->descripcion;
             $precio = $body->precio;
-            $autor = $body->id_autor;
+            $idAutor = $body->id_autor;
 
-            $id = $this->model->agregarLibro($titulo, $genero, $descripcion, $precio, $autor);
+            $autor = $this->modelAutores->getAutor($idAutor);
 
-            if ($id) {
-                return $this->view->response("Libro agregado con el id " . $id, 201);
+            if ($autor) {
+                $id = $this->model->agregarLibro($titulo, $genero, $descripcion, $precio, $idAutor);
+
+                if ($id) {
+                    return $this->view->response("Libro agregado con el id " . $id, 201);
+                }
+        
+                return $this->view->response("Error al insertar el libro", 500);
             }
-    
-            return $this->view->response("Error al insertar el libro", 500);
+
+            return $this->view->response("El autor con el id " . $idAutor . " no existe", 500);
         }
 
         $this->view->response("Falta información", 400);
@@ -222,10 +236,16 @@ class LibrosApiController extends ApiController {
                 $genero = $body->genero;
                 $descripcion = $body->descripcion;
                 $precio = $body->precio;
-                $autor = $body->id_autor;
+                $idAutor = $body->id_autor;
 
-                $this->model->modificarLibro($id, $titulo, $genero, $autor, $descripcion, $precio);
-                return $this->view->response("El libro con el id " . $id . " se actualizó correctamente", 200);
+                $autor = $this->modelAutores->getAutor($idAutor);
+    
+                if ($autor) {
+                    $this->model->modificarLibro($id, $titulo, $genero, $idAutor, $descripcion, $precio);
+                    return $this->view->response("El libro con el id " . $id . " se actualizó correctamente", 200);
+                }
+
+                return $this->view->response("El autor con el id " . $idAutor . " no existe", 500);
             }
 
             return $this->view->response("Falta información", 400);

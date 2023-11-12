@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2023 a las 21:59:54
+-- Tiempo de generación: 12-11-2023 a las 23:51:24
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -40,7 +40,8 @@ CREATE TABLE `autores` (
 --
 
 INSERT INTO `autores` (`id`, `nombre`, `descripcion`) VALUES
-(4, 'Julio Cortazar', 'Escritor argentino');
+(4, 'Julio Cortazar', 'Escritor argentino'),
+(10, 'Autor 2', 'Escritor argentino 2');
 
 -- --------------------------------------------------------
 
@@ -62,7 +63,11 @@ CREATE TABLE `libros` (
 --
 
 INSERT INTO `libros` (`id`, `titulo`, `genero`, `id_autor`, `descripcion`, `precio`) VALUES
-(1, 'Rayuela', 'Drama', 4, 'Rayuela es la segunda novela del escritor argentino Julio Cortázar. Escrita en París y publicada por primera vez el 28 de junio de 1963, constituye una de las obras centrales del boom latinoamericano y de la literatura en español.​​​Narra la historia de Horacio Oliveira, su protagonista, y su relación con «la Maga»', 10559);
+(1, 'Rayuela', 'Drama', 4, 'Rayuela es la segunda novela del escritor argentino Julio Cortázar. Escrita en París y publicada por primera vez el 28 de junio de 1963, constituye una de las obras centrales del boom latinoamericano y de la literatura en español.​​​Narra la historia de Horacio Oliveira, su protagonista, y su relación con «la Maga»', 10559),
+(8, 'El Libro de la Selva', 'Aventura', 4, 'descripcion', 13999),
+(9, '1984', 'Drama', 4, 'Descripcion prueba', 3500),
+(10, 'Otro libro', 'Terror', 10, 'descripcion libro ...', 5500),
+(11, 'El gato negro', 'Terror', 4, 'Cuentos de terror', 7000);
 
 -- --------------------------------------------------------
 
@@ -82,7 +87,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `usuario`, `contrasenia`, `rol`) VALUES
-(2, 'webadmin', '$2y$10$5RXbkytgVL7p3opafnIHOumRuJ/9LuCUkG5GJ44cQ63Vu2wfFdloK', 'administrador');
+(2, 'webadmin', '$2y$10$5RXbkytgVL7p3opafnIHOumRuJ/9LuCUkG5GJ44cQ63Vu2wfFdloK', 'administrador'),
+(3, 'Facu', '$2y$10$8AgmBePz5E92rzOUMSbjyefYzJV2IVKWEqk1rwKCvvMww.L4Wa7ae', 'usuario');
 
 --
 -- Índices para tablas volcadas
@@ -115,19 +121,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `autores`
 --
 ALTER TABLE `autores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
