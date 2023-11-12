@@ -1,10 +1,12 @@
 <?php
 require_once "./libs/router.php";
+require_once "./app/controllers/user.api.controller.php";
 require_once "./app/controllers/libros.api.controller.php";
 require_once "./app/controllers/autores.api.controller.php";
 
 $router = new Router();
 
+$router->addRoute('user/token', 'GET', 'UserApiController', 'getToken');
 
 $router->addRoute('libros', 'GET', 'LibrosApiController', 'getLibros');
 $router->addRoute('libros/filtro', 'GET', 'LibrosApiController', 'getLibrosFiltrados');

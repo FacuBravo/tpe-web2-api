@@ -2,6 +2,16 @@
 
 ## ENDPOINTS GET:
 
+### USUARIOS
+
++ user/token:
+
+    **Devuelve un token para acceder a las funciones de agregar, editar y borrar tanto autores como libros**
+    (Solo si el usuario es administrador)
+
+    USUARIO: webadmin
+    CONTRASEÑA: admin
+
 ### LIBROS
 
 + api/libros:

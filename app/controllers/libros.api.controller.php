@@ -2,16 +2,19 @@
 
 require_once "./app/models/libros.model.php";
 require_once "./app/controllers/api.controller.php";
+require_once "./app/helpers/auth.api.helper.php";
 
 class LibrosApiController extends ApiController {
-    private $model;
+    private $model, $authHelper;
 
     public function __construct() {
         parent::__construct();
         $this->model = new LibrosModel();
+        $this->authHelper = new AuthHelper();
     }
 
-    public function getLibros() {        
+    public function getLibros() {
+
         $orden = $this->_validarOrden();
 
         if ($orden != null) {
@@ -144,6 +147,16 @@ class LibrosApiController extends ApiController {
     }
 
     public function deleteLibro($params = []) {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+        
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+
         $id = $params[":ID"];
         $libro = $this->model->getLibro($id);
 
@@ -156,6 +169,16 @@ class LibrosApiController extends ApiController {
     }
 
     public function newLibro() {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+        
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+
         $body = $this->getData();
 
         if (!empty($body->titulo) && !empty($body->genero) && !empty($body->descripcion) && !empty($body->precio) && !empty($body->id_autor)) {
@@ -178,6 +201,16 @@ class LibrosApiController extends ApiController {
     }
 
     public function updateLibro($params = []) {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+        
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+        
         $id = $params[":ID"];
         $libro = $this->model->getLibro($id);
 

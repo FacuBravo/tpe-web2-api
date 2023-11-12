@@ -3,14 +3,16 @@
 require_once "./app/models/autores.model.php";
 require_once "./app/models/libros.model.php";
 require_once "./app/controllers/api.controller.php";
+require_once "./app/helpers/auth.api.helper.php";
 
 class AutoresApiController extends ApiController {
-    private $model, $modelLibros;
+    private $model, $modelLibros, $authHelper;
 
     public function __construct() {
         parent::__construct();
         $this->model = new AutoresModel();
         $this->modelLibros = new LibrosModel();
+        $this->authHelper = new AuthHelper();
     }
 
     public function getAutores() {
@@ -70,6 +72,16 @@ class AutoresApiController extends ApiController {
     }
 
     public function deleteAutor($params = []) {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+
         $id = $params[":ID"];
         $autor = $this->model->getAutor($id);
 
@@ -88,6 +100,16 @@ class AutoresApiController extends ApiController {
     }
 
     public function newAutor() {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+        
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+
         $body = $this->getData();
 
         if (!empty($body->nombre) && !empty($body->descripcion)) {
@@ -107,6 +129,16 @@ class AutoresApiController extends ApiController {
     }
 
     public function updateAutor($params = []) {
+        $user = $this->authHelper->currentUser();
+
+        if (!$user) {
+            return $this->view->response("Unauthorized", 403);
+        }
+
+        if (!$user->rol == "administrador") {
+            return $this->view->response("Unauthorized", 403);
+        }
+
         $id = $params[":ID"];
         $autor = $this->model->getAutor($id);
 
